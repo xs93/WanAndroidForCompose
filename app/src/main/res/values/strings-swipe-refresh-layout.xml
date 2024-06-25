@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="swipe_refresh_layout_pull_to_refresh">下拉刷新</string>
+    <string name="swipe_refresh_layout_release_to_refresh">释放立即刷新</string>
+    <string name="swipe_refresh_layout_refreshing" tools:ignore="TypographyEllipsis">刷新中...</string>
+    <string name="swipe_refresh_layout_refresh_complete">刷新成功</string>
+    <string name="swipe_refresh_layout_refresh_failed">刷新失败</string>
+    <string name="swipe_refresh_layout_refresh_last_time">上次加载:%s</string>
+</resources>
