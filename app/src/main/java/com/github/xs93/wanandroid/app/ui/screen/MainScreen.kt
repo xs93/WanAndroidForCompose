@@ -186,7 +186,9 @@ fun MainContent(drawerState: DrawerState) {
                 .padding(paddingValues)
         ) {
             HorizontalPager(
-                state = pagerState, modifier = Modifier.fillMaxSize(), beyondBoundsPageCount = MainTab.entries.size - 1
+                state = pagerState,
+                modifier = Modifier.fillMaxSize(),
+                beyondViewportPageCount = MainTab.entries.size - 1
             ) { page ->
                 when (page) {
                     0 -> HomeScreen(drawerState = drawerState)

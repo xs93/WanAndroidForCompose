@@ -40,7 +40,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
- *
+ * 轮播Banner
  *
  * @author XuShuai
  * @version v1.0
@@ -69,8 +69,9 @@ fun Banner(
     Box(modifier = modifier.fillMaxWidth()) {
         if (dataList.isEmpty()) return@Box
         val pageSize = dataList.size
-        val pageCount = 500
-        val initialPage = (pageCount / 2) - (pageCount / 2) % pageSize
+        val pageCount = Int.MAX_VALUE
+        val centerCount = pageCount / 2
+        val initialPage = centerCount - centerCount % pageSize
         val pageState = rememberPagerState(initialPage = initialPage) {
             pageCount
         }
@@ -93,7 +94,7 @@ fun Banner(
         }
 
         HorizontalPager(state = pageState,
-            beyondBoundsPageCount = 2,
+            beyondViewportPageCount = 2,
             modifier = Modifier
                 .fillMaxSize()
                 .pointerInput(pageState.currentPage) {

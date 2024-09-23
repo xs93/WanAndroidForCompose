@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -127,7 +126,7 @@ fun HomeScreen(
                     .padding(8.dp)
                     .clickable(
                         interactionSource = menuInteractionSource,
-                        indication = rememberRipple(bounded = false),
+                        indication = null,
                         onClick = {
                             scope.launch {
                                 drawerState.open()
@@ -141,7 +140,7 @@ fun HomeScreen(
             state = pagerState,
             modifier = Modifier
                 .fillMaxSize(),
-            beyondBoundsPageCount = HomeTab.entries.size - 1
+            beyondViewportPageCount = HomeTab.entries.size - 1
         ) { page ->
             when (page) {
                 0 -> ExploreScreen()
