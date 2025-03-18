@@ -19,4 +19,7 @@ object RouteConfig {
      * 文章详情路由
      */
     const val ROUTE_ARTICLE_DETAIL = "page_article_detail"
+
+
+    const val ROUTE_TEST_UI_1 = "page_test_ui_1"
 }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -44,6 +45,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.github.xs93.wanandroid.app.R
 import com.github.xs93.wanandroid.app.model.MainTab
+import com.github.xs93.wanandroid.app.router.AppNavHost
+import com.github.xs93.wanandroid.app.router.RouteConfig
 import com.github.xs93.wanandroid.app.ui.theme.AppTheme
 import com.github.xs93.wanandroid.app.ui.theme.mainTabColorNormal
 import com.github.xs93.wanandroid.common.widget.BottomNavigationBar
@@ -63,7 +66,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun MainScreen() {
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
     ModalNavigationDrawer(drawerState = drawerState, drawerContent = { MainDrawerContent() }) {
         MainContent(drawerState)
     }
@@ -128,6 +131,26 @@ fun MainDrawerContent() {
                 }
             }
         }
+
+        item {
+            Button(
+                onClick = {
+                    AppNavHost.navController.navigate(RouteConfig.ROUTE_TEST_UI_1)
+                },
+                contentPadding = PaddingValues(0.dp),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp)
+                    .fillMaxWidth()
+                    .height(48.dp),
+            ) {
+                Text(
+                    text = "Test Ui",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
+        }
     }
 }
 
@@ -137,47 +160,50 @@ fun MainContent(drawerState: DrawerState) {
     val pagerState = rememberPagerState(0, 0f) {
         MainTab.entries.size
     }
-    Scaffold(modifier = Modifier.windowInsetsPadding(NavigationBarDefaults.windowInsets), bottomBar = {
-        val tabs = MainTab.entries.toTypedArray()
-        BottomNavigationBar(modifier = Modifier.height(56.dp)) {
-            tabs.forEachIndexed { index, mainTab ->
-                BottomNavigationBarItem(
-                    selected = pagerState.currentPage == index,
-                    onClick = { scope.launch { pagerState.animateScrollToPage(index) } },
-                    icon = {
-                        Image(
-                            modifier = Modifier.size(24.dp),
-                            painter = painterResource(id = mainTab.tabIconResId),
-                            contentDescription = stringResource(id = mainTab.tabNameStringResId),
-                            colorFilter = ColorFilter.tint(LocalContentColor.current),
+    Scaffold(
+        modifier = Modifier.windowInsetsPadding(NavigationBarDefaults.windowInsets),
+        bottomBar = {
+            val tabs = MainTab.entries.toTypedArray()
+            BottomNavigationBar(modifier = Modifier.height(56.dp)) {
+                tabs.forEachIndexed { index, mainTab ->
+                    BottomNavigationBarItem(
+                        selected = pagerState.currentPage == index,
+                        onClick = { scope.launch { pagerState.animateScrollToPage(index) } },
+                        icon = {
+                            Image(
+                                modifier = Modifier.size(24.dp),
+                                painter = painterResource(id = mainTab.tabIconResId),
+                                contentDescription = stringResource(id = mainTab.tabNameStringResId),
+                                colorFilter = ColorFilter.tint(LocalContentColor.current),
+                            )
+                        },
+                        label = {
+                            if (pagerState.currentPage == index) {
+                                Text(
+                                    text = stringResource(id = mainTab.tabNameStringResId),
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            } else {
+                                Text(
+                                    text = stringResource(id = mainTab.tabNameStringResId),
+                                    fontSize = 12.sp
+                                )
+                            }
+                        },
+                        iconLabelSpace = 4.dp,
+                        colors = BottomNavigationBarItemColors(
+                            selectedIconColor = MaterialTheme.colorScheme.primary,
+                            unselectedIconColor = mainTabColorNormal,
+                            selectedTextColor = MaterialTheme.colorScheme.primary,
+                            unselectedTextColor = mainTabColorNormal,
+                            disabledIconColor = mainTabColorNormal.copy(alpha = 0.38f),
+                            disabledTextColor = mainTabColorNormal.copy(alpha = 0.38f)
                         )
-                    },
-                    label = {
-                        if (pagerState.currentPage == index) {
-                            Text(
-                                text = stringResource(id = mainTab.tabNameStringResId),
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        } else {
-                            Text(
-                                text = stringResource(id = mainTab.tabNameStringResId), fontSize = 12.sp
-                            )
-                        }
-                    },
-                    iconLabelSpace = 4.dp,
-                    colors = BottomNavigationBarItemColors(
-                        selectedIconColor = MaterialTheme.colorScheme.primary,
-                        unselectedIconColor = mainTabColorNormal,
-                        selectedTextColor = MaterialTheme.colorScheme.primary,
-                        unselectedTextColor = mainTabColorNormal,
-                        disabledIconColor = mainTabColorNormal.copy(alpha = 0.38f),
-                        disabledTextColor = mainTabColorNormal.copy(alpha = 0.38f)
                     )
-                )
+                }
             }
-        }
-    }) { paddingValues ->
+        }) { paddingValues ->
         Box(
             Modifier
                 .fillMaxSize()

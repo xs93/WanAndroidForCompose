@@ -1,11 +1,9 @@
 package com.github.xs93.wanandroid.app.router
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideIn
-import androidx.compose.animation.slideOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.IntOffset
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -14,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.github.xs93.wanandroid.app.ui.screen.ArticleDetailsScreen
 import com.github.xs93.wanandroid.app.ui.screen.MainScreen
+import com.github.xs93.wanandroid.app.ui.screen.TestUiScreen
 
 /**
  *
@@ -34,29 +33,19 @@ object AppNavHost {
 fun AppNavGraph() {
     val navController = rememberNavController()
     AppNavHost.navController = navController
-    val pageAnimDuration = 350
     NavHost(navController = navController, startDestination = RouteConfig.ROUTE_MAIN,
         enterTransition = {
-            slideIn(animationSpec = tween(pageAnimDuration)) {
-                IntOffset(it.width, 0)
-            }
+            slideInHorizontally(initialOffsetX = { it })
         },
         exitTransition = {
-            slideOut {
-                IntOffset(0, 0)
-            }
+            slideOutHorizontally(targetOffsetX = { -it })
         },
         popEnterTransition = {
-            slideIn {
-                IntOffset(0, 0)
-            }
+            slideInHorizontally(initialOffsetX = { -it })
         },
         popExitTransition = {
-            slideOut(animationSpec = tween(pageAnimDuration)) {
-                IntOffset(it.width, 0)
-            }
+            slideOutHorizontally(targetOffsetX = { it })
         }
-
     ) {
         composable(RouteConfig.ROUTE_MAIN) {
             MainScreen()
@@ -81,6 +70,10 @@ fun AppNavGraph() {
             val title = it.arguments?.getString("title") ?: ""
             val url = it.arguments?.getString("url") ?: ""
             ArticleDetailsScreen(articleId, title, url)
+        }
+
+        composable(RouteConfig.ROUTE_TEST_UI_1) {
+            TestUiScreen()
         }
     }
 }
