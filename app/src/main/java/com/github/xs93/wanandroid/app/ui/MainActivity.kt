@@ -5,7 +5,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.WindowCompat
 import com.github.xs93.framework.base.ui.base.BaseActivity
 import com.github.xs93.framework.ktx.launcher
 import com.github.xs93.wanandroid.app.router.AppNavGraph
@@ -19,7 +18,6 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         splashScreen = installSplashScreen()
         splashScreen.setKeepOnScreenCondition {

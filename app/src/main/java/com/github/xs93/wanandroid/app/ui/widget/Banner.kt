@@ -1,7 +1,6 @@
 package com.github.xs93.wanandroid.app.ui.widget
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitEachGesture
@@ -39,17 +38,14 @@ import com.github.xs93.wanandroid.app.entity.BannerData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+
 /**
- * 轮播Banner
- *
  * @author XuShuai
  * @version v1.0
  * @date 2024/2/27 14:11
- * @email 466911254@qq.com
+ * @description 轮播Banner控件
+ *
  */
-
-
-@ExperimentalFoundationApi
 @Composable
 fun Banner(
     dataList: List<BannerData>,
@@ -126,14 +122,10 @@ fun Banner(
         ) { index ->
             val curPage = index % pageSize
             val data = dataList[curPage]
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
+            Box(modifier = Modifier.fillMaxSize()) {
                 content.invoke(data)
             }
         }
-
-
         Box(
             modifier = Modifier
                 .then(indicatorModifier)
@@ -165,11 +157,5 @@ fun Banner(
                 }
             }
         }
-
     }
-}
-
-fun Int.floorMod(other: Int) = when (other) {
-    0 -> this
-    else -> this - floorDiv(other) * other
 }

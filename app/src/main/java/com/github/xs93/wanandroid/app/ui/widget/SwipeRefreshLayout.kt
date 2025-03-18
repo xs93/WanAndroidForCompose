@@ -119,7 +119,8 @@ fun SwipeRefreshLayout(
             SwipeRefreshStateFlag.REFRESHING -> {
                 onRefresh.invoke()
                 state.animateToOffset(indicatorHeight * maxDragRate)
-                state.refreshAnimateFinishing = SwipeRefreshAnimateFinishing(isFinishing = false, isRefresh = true)
+                state.refreshAnimateFinishing =
+                    SwipeRefreshAnimateFinishing(isFinishing = false, isRefresh = true)
             }
 
             SwipeRefreshStateFlag.SUCCESS,
@@ -137,7 +138,11 @@ private fun isNeedClip(state: SwipeRefreshState, indicatorHeight: Int): Boolean 
     return state.indicatorOffset < indicatorHeight
 }
 
-private fun getHeaderOffset(style: SwipeRefreshStyle, state: SwipeRefreshState, indicatorHeight: Int): IntOffset {
+private fun getHeaderOffset(
+    style: SwipeRefreshStyle,
+    state: SwipeRefreshState,
+    indicatorHeight: Int
+): IntOffset {
     return when (style) {
         SwipeRefreshStyle.Translate -> {
             IntOffset(0, state.indicatorOffset.toInt() - indicatorHeight)
@@ -200,7 +205,10 @@ enum class SwipeRefreshStateFlag {
     ERROR,// 失败状态
 }
 
-data class SwipeRefreshAnimateFinishing(val isFinishing: Boolean = true, val isRefresh: Boolean = true)
+data class SwipeRefreshAnimateFinishing(
+    val isFinishing: Boolean = true,
+    val isRefresh: Boolean = true
+)
 
 @Stable
 class SwipeRefreshState {
@@ -214,7 +222,8 @@ class SwipeRefreshState {
         SwipeRefreshAnimateFinishing(isFinishing = true, isRefresh = true)
     )
 
-    fun isRefreshing() = refreshStateFlag == SwipeRefreshStateFlag.REFRESHING || !refreshAnimateFinishing.isFinishing
+    fun isRefreshing() =
+        refreshStateFlag == SwipeRefreshStateFlag.REFRESHING || !refreshAnimateFinishing.isFinishing
 
     internal suspend fun animateToOffset(offset: Float) {
         mutatorMutex.mutate {
@@ -242,7 +251,10 @@ class SwipeRefreshState {
     }
 }
 
-private class SwipeRefreshNestedScrollConnection(val state: SwipeRefreshState, val coroutineScope: CoroutineScope) :
+private class SwipeRefreshNestedScrollConnection(
+    val state: SwipeRefreshState,
+    val coroutineScope: CoroutineScope
+) :
     NestedScrollConnection {
 
     private val dragMultiplier = 0.4f
@@ -254,16 +266,20 @@ private class SwipeRefreshNestedScrollConnection(val state: SwipeRefreshState, v
         return when {
             !enable -> Offset.Zero
             state.isRefreshing() -> Offset.Zero
-            source == NestedScrollSource.Drag && available.y < 0 -> onScroll(available)
+            source == NestedScrollSource.UserInput && available.y < 0 -> onScroll(available)
             else -> Offset.Zero
         }
     }
 
-    override fun onPostScroll(consumed: Offset, available: Offset, source: NestedScrollSource): Offset {
+    override fun onPostScroll(
+        consumed: Offset,
+        available: Offset,
+        source: NestedScrollSource
+    ): Offset {
         return when {
             !enable -> Offset.Zero
             state.isRefreshing() -> Offset.Zero
-            source == NestedScrollSource.Drag && available.y > 0 -> onScroll(available)
+            source == NestedScrollSource.UserInput && available.y > 0 -> onScroll(available)
             else -> Offset.Zero
         }
     }
@@ -324,7 +340,10 @@ fun ClassSwipeRefreshHeader(flag: SwipeRefreshStateFlag, containerColor: Color =
             MutableTransitionState(0)
         }
         val transition = updateTransition(targetState = transitionState, label = "arrowTransition")
-        val arrowDegrees by transition.animateFloat(transitionSpec = { tween(100) }, label = "arrowDegrees") {
+        val arrowDegrees by transition.animateFloat(
+            transitionSpec = { tween(100) },
+            label = "arrowDegrees"
+        ) {
             if (it.targetState == 0) 0f else 180f
         }
         transitionState.targetState = if (flag == SwipeRefreshStateFlag.RELEASE) 1 else 0
@@ -366,7 +385,10 @@ fun ClassSwipeRefreshHeader(flag: SwipeRefreshStateFlag, containerColor: Color =
             Column(modifier = Modifier.padding(start = 4.dp)) {
                 Text(
                     text = when (flag) {
-                        SwipeRefreshStateFlag.IDLE, SwipeRefreshStateFlag.PULL_DOWN -> stringResource(id = R.string.swipe_refresh_layout_pull_to_refresh)
+                        SwipeRefreshStateFlag.IDLE, SwipeRefreshStateFlag.PULL_DOWN -> stringResource(
+                            id = R.string.swipe_refresh_layout_pull_to_refresh
+                        )
+
                         SwipeRefreshStateFlag.RELEASE -> stringResource(id = R.string.swipe_refresh_layout_release_to_refresh)
                         SwipeRefreshStateFlag.REFRESHING -> stringResource(id = R.string.swipe_refresh_layout_refreshing)
                         SwipeRefreshStateFlag.SUCCESS -> stringResource(id = R.string.swipe_refresh_layout_refresh_complete)
@@ -377,7 +399,9 @@ fun ClassSwipeRefreshHeader(flag: SwipeRefreshStateFlag, containerColor: Color =
                 Text(
                     text = stringResource(
                         id = R.string.swipe_refresh_layout_refresh_last_time,
-                        SimpleDateFormat("MM-dd HH:mm:ss", Locale.getDefault()).format(lastRecordTime)
+                        SimpleDateFormat("MM-dd HH:mm:ss", Locale.getDefault()).format(
+                            lastRecordTime
+                        )
                     ),
                     fontSize = 10.sp
                 )

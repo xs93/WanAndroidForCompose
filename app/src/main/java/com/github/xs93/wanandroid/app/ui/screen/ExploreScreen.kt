@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package com.github.xs93.wanandroid.app.ui.screen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -103,9 +101,17 @@ fun ExploreScreen(viewModel: ExploreViewModel = viewModel()) {
             item {
                 ElevatedCard(
                     shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
-                    elevation = CardDefaults.elevatedCardElevation(defaultElevation = 8.dp, pressedElevation = 8.dp),
-                    modifier = Modifier.padding(start = 12.dp, top = 16.dp, end = 12.dp, bottom = 16.dp)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary),
+                    elevation = CardDefaults.elevatedCardElevation(
+                        defaultElevation = 8.dp,
+                        pressedElevation = 8.dp
+                    ),
+                    modifier = Modifier.padding(
+                        start = 12.dp,
+                        top = 16.dp,
+                        end = 12.dp,
+                        bottom = 16.dp
+                    )
                 ) {
                     Banner(
                         dataList = uiState.banners,
@@ -114,7 +120,11 @@ fun ExploreScreen(viewModel: ExploreViewModel = viewModel()) {
                         onItemClick = {
                             ToastManager.showToast(it.title)
                         },
-                        indicatorModifier = Modifier.padding(start = 16.dp, bottom = 8.dp, end = 16.dp),
+                        indicatorModifier = Modifier.padding(
+                            start = 16.dp,
+                            bottom = 8.dp,
+                            end = 16.dp
+                        ),
                         indicatorAlignment = Alignment.BottomEnd
                     ) {
                         AsyncImage(
@@ -139,12 +149,16 @@ fun ArticleCardItem(article: Article) {
     ElevatedCard(
         onClick = {
             val encodeUrl = URLEncoder.encode(article.link, Charsets.UTF_8.name())
-            val router = "${RouteConfig.ROUTE_ARTICLE_DETAIL}/${article.id}/${article.title}/${encodeUrl}"
+            val router =
+                "${RouteConfig.ROUTE_ARTICLE_DETAIL}/${article.id}/${article.title}/${encodeUrl}"
             AppNavHost.navController.navigate(router)
         },
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp, pressedElevation = 4.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary),
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = 4.dp,
+            pressedElevation = 4.dp
+        ),
         modifier = Modifier.padding(horizontal = 12.dp)
     ) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {

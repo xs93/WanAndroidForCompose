@@ -1,6 +1,5 @@
 package com.github.xs93.wanandroid.app.ui.screen
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -132,7 +131,6 @@ fun MainDrawerContent() {
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainContent(drawerState: DrawerState) {
     val scope = rememberCoroutineScope()

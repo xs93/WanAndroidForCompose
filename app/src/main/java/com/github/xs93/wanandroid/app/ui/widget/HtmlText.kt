@@ -7,21 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 
+
 /**
- *
- *
- * @author XuShuai
- * @version v1.0
- * @date 2024/3/12 10:12
- * @email 466911254@qq.com
+ * 显示Html文本的TextView,使用原生TextView组件显示
  */
-
-
 @Composable
-fun HtmlText(
-    html: String,
-    modifier: Modifier = Modifier
-) {
+fun HtmlText(html: String, modifier: Modifier = Modifier) {
     AndroidView(modifier = modifier,
         factory = { context ->
             TextView(context).apply {

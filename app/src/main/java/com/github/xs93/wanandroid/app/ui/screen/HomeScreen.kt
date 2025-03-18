@@ -21,6 +21,7 @@ import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -50,9 +51,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(
-    drawerState: DrawerState
-) {
+fun HomeScreen(drawerState: DrawerState) {
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState(0, 0f) {
         HomeTab.entries.size
@@ -123,16 +122,16 @@ fun HomeScreen(
                         bottom.linkTo(parent.bottom)
                     }
                     .size(40.dp)
-                    .padding(8.dp)
                     .clickable(
                         interactionSource = menuInteractionSource,
-                        indication = null,
+                        indication = ripple(bounded = true, radius = 20.dp),
                         onClick = {
                             scope.launch {
                                 drawerState.open()
                             }
                         }
-                    ),
+                    )
+                    .padding(8.dp),
                 contentDescription = null
             )
         }
